@@ -10,12 +10,15 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  /* University of Rochester brand colors */
+  --color-rochester-blue: #003B71;
+  --color-rochester-yellow: #F2A900;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ffffff; /* force white background even in dark mode */
+    --foreground: #171717; /* maintain dark text for readability */
   }
 }
 
