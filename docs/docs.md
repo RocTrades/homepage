@@ -40,6 +40,13 @@
 - `NEXT_PUBLIC_PLAY_STORE_URL`: Google Play link (e.g., `https://play.google.com/store/apps/details?id=com.example.app`).
 - These are optional; if unset, the UI shows "Coming soon" placeholders.
 
+### Auth Email Confirmation Redirect
+- Route: `/confirm-email` handled by App Router in `app/confirm-email/page.tsx`.
+- Success: when `access_token` is present in query params, show “Email confirmed” and “You can now log in with <email>” if `email` is provided; primary CTA links back to homepage.
+- Error: when `error` is present, or when there are no params, show “Oops, we couldn't confirm your email”, include `error_description` if provided (fallback to “Unknown”), and a mailto support link to `contact@roctrades.com`.
+- Implementation: reads `searchParams` safely (uses first value if a param is an array), does not store or use the token beyond presence check; purely presentational for v0.
+- Styling/UX: matches brand tokens (`--color-rochester-blue` for actions), semantic headings, and responsive spacing consistent with the hero.
+
 ### What’s NOT in v0
 - Auth and `.rochester.edu` verification, real listings, chat, payments — placeholders only.
 - Full brand typography, logo, or complex components — kept intentionally simple.
