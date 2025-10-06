@@ -65,3 +65,9 @@ npm run test:ui
 Notes:
 - The config starts the dev server automatically (`npm run dev`) and targets `http://localhost:3000`.
 - To run a single file: `npx playwright test tests/confirm-email.spec.ts`.
+
+## Development instruction
+
+This is a vibe-first codebase. See `docs/vibes.md` for the chatbot guidelines used in this repo.
+
+- When vibe coding with Cursor agent or a similar IDE assistant, attach the contents of `docs/vibes.md` to the chatbot so it enforces the intended workflow.

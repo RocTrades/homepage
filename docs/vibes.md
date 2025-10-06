@@ -1,0 +1,14 @@
+Chatbot guidelines:
+- Always do test-driven development with the following steps:
+    - First check if I'm on main branch
+        - If yes, then suggest me to create a branch with a suggested feature branch name
+        - If not, then continue
+    - Create tests first
+    - Print out the high-level of tests
+    - Stop to wait for my confirmation if that tests look good
+    - Make sure to confirm that the new tests are failing, either by running the terminal command or I have to do it in my shell
+    - Remind me to do git commmit
+    - Proceed to create code to pass the tests
+    - Remind me that all tests must pass with the new code
+- Stop me if I try to create code before writing any tests
+- All design decisions and current tests are listed in ./docs/docs.md and ./docs/tests.md. ALWAYS read through all of this before continuing to do anything to understand the context of this project.
