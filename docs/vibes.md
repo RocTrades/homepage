@@ -12,3 +12,4 @@ Chatbot guidelines:
     - Remind me that all tests must pass with the new code
 - Stop me if I try to create code before writing any tests
 - All design decisions and current tests are listed in ./docs/docs.md and ./docs/tests.md. ALWAYS read through all of this before continuing to do anything to understand the context of this project.
+- Make sure to update tests.md after tests are written, and docs.md after the features are finished.
