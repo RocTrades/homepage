@@ -6,13 +6,13 @@
 - Use minimal dependencies, leverage Tailwind v4-in-PostCSS already configured.
 
 ### Tech Choices
-- Framework: Next.js App Router (already configured in `src/app`).
+- Framework: Next.js App Router (already configured in `/app`).
 - Styling: Tailwind v4 via `@tailwindcss/postcss` with inline `@theme` tokens in `globals.css`.
 - Fonts: Using `Geist` defaults from template for speed; can swap later.
 
 ### Brand System
 - Product name: RocTrades (University of Rochester student audience).
-- Colors added as CSS variables exposed to Tailwind via `@theme` in `src/app/globals.css`:
+- Colors added as CSS variables exposed to Tailwind via `@theme` in `app/globals.css`:
   - `--color-rochester-blue: #003B71` (primary)
   - `--color-rochester-yellow: #F2A900` (accent)
 - Rationale: Align with University of Rochester palette for instant familiarity; keep usage minimal for accessibility contrast.
@@ -32,7 +32,7 @@
 - Semantic structure: sections with IDs for in-page navigation (`#how-it-works`, `#browse`).
 
 ### SEO / Metadata
-- Updated in `src/app/layout.tsx` to emphasize mobile app and RocTrades brand.
+- Updated in `app/layout.tsx` to emphasize mobile app and RocTrades brand.
 - `metadataBase` currently `https://example.com`; replace with production domain.
 
 ### Environment Variables
