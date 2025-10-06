@@ -1,3 +1,4 @@
+import Link from "next/link";
 export default function ConfirmEmailPage({
   searchParams,
 }: {
@@ -43,13 +44,13 @@ export default function ConfirmEmailPage({
                 )}
               </p>
               <div className="mt-8">
-                <a
+                <Link
                   href="/"
                   className="rounded-md px-5 py-3 text-sm font-semibold text-white shadow-sm inline-block"
                   style={{ backgroundColor: "var(--color-rochester-blue)" }}
                 >
                   Go to homepage
-                </a>
+                </Link>
               </div>
             </div>
           )}
@@ -60,7 +61,7 @@ export default function ConfirmEmailPage({
                 className="text-3xl font-bold tracking-tight sm:text-4xl"
                 style={{ color: "var(--color-rochester-blue)" }}
               >
-                Oops, we couldn't confirm your email
+                Oops, we couldn&apos;t confirm your email
               </h1>
               <p className="mt-4 text-base sm:text-lg leading-7 text-foreground/80">
                 Please contact <a
@@ -72,13 +73,13 @@ export default function ConfirmEmailPage({
                 Error details: {errorDescription || "Unknown"}
               </p>
               <div className="mt-8">
-                <a
+                <Link
                   href="/"
                   className="rounded-md px-5 py-3 text-sm font-semibold text-white shadow-sm inline-block"
                   style={{ backgroundColor: "var(--color-rochester-blue)" }}
                 >
                   Go to homepage
-                </a>
+                </Link>
               </div>
             </div>
           )}
