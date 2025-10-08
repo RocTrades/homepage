@@ -11,6 +11,8 @@
   - Expects heading above and details “Unknown”.
 - No params: `/confirm-email`
   - Expects heading above and details “Unknown”.
+- Fragment error params (from auth providers): `/confirm-email#error=access_denied&error_code=otp_expired&error_description=Email%20link%20is%20invalid%20or%20has%20expired`
+  - Expects heading above and details “Email link is invalid or has expired”.
 
 Run:
 

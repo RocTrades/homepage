@@ -39,6 +39,16 @@ test.describe('Confirm Email', () => {
     ).toBeVisible();
     await expect(page.getByText('Error details: Unknown')).toBeVisible();
   });
+
+  test('fragment error params show message and details', async ({ page }) => {
+    await page.goto('/confirm-email#error=access_denied&error_code=otp_expired&error_description=Email%20link%20is%20invalid%20or%20has%20expired');
+    await expect(
+      page.getByRole('heading', { name: "Oops, we couldn't confirm your email" })
+    ).toBeVisible();
+    await expect(
+      page.getByText('Error details: Email link is invalid or has expired')
+    ).toBeVisible();
+  });
 });
 
 
