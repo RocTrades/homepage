@@ -8,6 +8,7 @@ type Props = {
   initialEmail?: string;
   initialError?: string;
   initialErrorDescription?: string;
+  initialConfirmationUrl?: string;
   hasAnyInitialParams: boolean;
 };
 
@@ -21,11 +22,10 @@ function parseHashParams(hash: string): Record<string, string> {
   return result;
 }
 
-export default function ConfirmEmailClient(props: Props) {
+export default function ConfirmSignupClient(props: Props) {
   const [fragmentParams, setFragmentParams] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    // Read fragment on mount and on hash changes
     const read = () => setFragmentParams(parseHashParams(window.location.hash));
     read();
     window.addEventListener("hashchange", read);
@@ -33,7 +33,6 @@ export default function ConfirmEmailClient(props: Props) {
   }, []);
 
   const merged = useMemo(() => {
-    // Fragment params override initial (query) when present
     return {
       access_token: fragmentParams.access_token ?? props.initialAccessToken,
       email: fragmentParams.email ?? props.initialEmail,
@@ -45,13 +44,34 @@ export default function ConfirmEmailClient(props: Props) {
     };
   }, [fragmentParams, props.initialAccessToken, props.initialEmail, props.initialError, props.initialErrorDescription, props.hasAnyInitialParams]);
 
-  const isSuccess = Boolean(merged.access_token);
-  const isError = !isSuccess && (Boolean(merged.error) || !merged.hasAny);
+  const hasPreScreen = Boolean(props.initialConfirmationUrl);
+  const isSuccess = !hasPreScreen && Boolean(merged.access_token);
+  const isError = !hasPreScreen && !isSuccess && (Boolean(merged.error) || !merged.hasAny);
 
   return (
     <main className="min-h-screen font-sans flex items-center">
       <section className="w-full">
         <div className="mx-auto max-w-3xl px-6 py-24 sm:py-32">
+          {hasPreScreen && (
+            <div>
+              <h1
+                className="text-3xl font-bold tracking-tight sm:text-4xl"
+                style={{ color: "var(--color-rochester-blue)" }}
+              >
+                Click this button to confirm your email
+              </h1>
+              <div className="mt-8">
+                <a
+                  href={props.initialConfirmationUrl}
+                  className="rounded-md px-5 py-3 text-sm font-semibold text-white shadow-sm inline-block"
+                  style={{ backgroundColor: "var(--color-rochester-blue)" }}
+                >
+                  Confirm email
+                </a>
+              </div>
+            </div>
+          )}
+
           {isSuccess && (
             <div>
               <h1

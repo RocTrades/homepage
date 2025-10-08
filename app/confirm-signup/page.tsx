@@ -1,6 +1,6 @@
-import ConfirmEmailClient from "./ConfirmEmailClient";
+import ConfirmSignupClient from "./ConfirmSignupClient";
 
-export default async function ConfirmEmailPage({
+export default async function ConfirmSignupPage({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -14,11 +14,12 @@ export default async function ConfirmEmailPage({
   };
 
   return (
-    <ConfirmEmailClient
+    <ConfirmSignupClient
       initialAccessToken={getParam("access_token")}
       initialEmail={getParam("email")}
       initialError={getParam("error")}
       initialErrorDescription={getParam("error_description")}
+      initialConfirmationUrl={getParam("confirmation_url")}
       hasAnyInitialParams={Object.keys(resolved || {}).length > 0}
     />
   );
