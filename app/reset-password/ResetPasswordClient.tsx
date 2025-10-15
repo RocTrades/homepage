@@ -114,9 +114,7 @@ export default function ResetPasswordClient() {
           >
             Reset your password
           </h1>
-          <p className="mt-4 text-base sm:text-lg leading-7 text-foreground/80">
-            resetting password for email: {merged.email || 'Unknown'}
-          </p>
+          {/* Removed email subtitle per UX change */}
 
           <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
             <div>

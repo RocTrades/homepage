@@ -7,7 +7,6 @@ test.describe('Reset Password', () => {
     await page.goto(`/reset-password${hash}`);
 
     await expect(page.getByRole('heading', { name: 'Reset your password' })).toBeVisible();
-    await expect(page.getByText(`resetting password for email: ${email}`)).toBeVisible();
     await expect(page.getByLabel('New password')).toBeVisible();
     await expect(page.getByLabel('Confirm password')).toBeVisible();
     await expect(page.getByRole('button', { name: 'Submit' })).toBeVisible();

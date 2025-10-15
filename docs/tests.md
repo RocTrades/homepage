@@ -25,7 +25,7 @@ npm run test
 
 ### reset-password.spec.ts
 - Fragment with access_token and email: `/reset-password#access_token=abc123&type=recovery&email=student%40rochester.edu`
-  - Expects heading “Reset your password”, text `resetting password for email: student@rochester.edu`, password and confirm fields, and a Submit button.
+  - Expects heading “Reset your password”, password and confirm fields, and a Submit button.
 - Successful update: fill matching passwords and click Submit
   - Expects navigation to `/reset-password/success`, heading “Password updated”, and text “Successfully updated password, please get back to the app.”
 - Validation failure: mismatch passwords

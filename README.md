@@ -86,3 +86,13 @@ NEXT_PUBLIC_E2E=1
 This is a vibe-first codebase. See `docs/vibes.md` for the chatbot guidelines used in this repo.
 
 - When vibe coding with Cursor agent or a similar IDE assistant, attach the contents of `docs/vibes.md` to the chatbot so it enforces the intended workflow.
+
+### Environment variables
+- Create an `.env.local` in your directory with the following content:
+    ```
+    # .env.local
+    NEXT_PUBLIC_SUPABASE_URL=https://ycvyvpanzpvcmnujprtg.supabase.co
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inljdnl2cGFuenB2Y21udWpwcnRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyMTg2NDEsImV4cCI6MjA3Mzc5NDY0MX0.cdj3ELvr7yI66bUYLtfh5_qs1l_tpiKFHzhPYdsbyEY
+    # Should be 1 for testing reset-password flow
+    NEXT_PUBLIC_E2E=1
+    ```
