@@ -29,6 +29,6 @@ npm run test
 - Successful update: fill matching passwords and click Submit
   - Expects navigation to `/reset-password/success`, heading “Password updated”, and text “Successfully updated password, please get back to the app.”
 - Validation failure: mismatch passwords
-  - Expects inline error text “Failed to update password”.
+  - Expects inline error text “Passwords do not match.”.
 - Fragment error params: `/reset-password#error=access_denied&error_code=otp_expired&error_description=Email%20link%20is%20invalid%20or%20has%20expired`
   - Expects heading “Oops, we couldn't reset your password” and details “Email link is invalid or has expired”.

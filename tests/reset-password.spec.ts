@@ -33,7 +33,7 @@ test.describe('Reset Password', () => {
     await expect(page.getByText('Successfully updated password, please get back to the app.')).toBeVisible();
   });
 
-  test('shows error notification on failure', async ({ page }) => {
+  test('shows descriptive error on password mismatch', async ({ page }) => {
     const email = 'student@rochester.edu';
     const hash = `#access_token=abc123&type=recovery&email=${encodeURIComponent(email)}`;
     await page.goto(`/reset-password${hash}`);
@@ -43,7 +43,7 @@ test.describe('Reset Password', () => {
     await page.getByLabel('Confirm password').fill('Mismatch123!');
 
     await page.getByRole('button', { name: 'Submit' }).click();
-    await expect(page.getByText('Failed to update password')).toBeVisible();
+    await expect(page.getByText('Passwords do not match.')).toBeVisible();
   });
 
   test('shows error state when fragment has error parameters', async ({ page }) => {

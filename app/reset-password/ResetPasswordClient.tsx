@@ -45,11 +45,15 @@ export default function ResetPasswordClient() {
     setError(null);
 
     if (!merged.access_token) {
-      setError('Failed to update password');
+      setError('Missing or invalid recovery token. Please use the link from your email.');
       return;
     }
-    if (!password || password !== confirmPassword) {
-      setError('Failed to update password');
+    if (!password) {
+      setError('Please enter your new password.');
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.');
       return;
     }
 
@@ -63,13 +67,13 @@ export default function ResetPasswordClient() {
       const supabase = getSupabaseClient(merged.access_token);
       const { error: updateError } = await supabase.auth.updateUser({ password });
       if (updateError) {
-        setError('Failed to update password');
+        setError(updateError.message || 'Unable to update password. Please try again.');
         setSubmitting(false);
         return;
       }
       router.push('/reset-password/success');
     } catch {
-      setError('Failed to update password');
+      setError('Unexpected error. Please try again.');
       setSubmitting(false);
     }
   }
