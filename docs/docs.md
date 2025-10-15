@@ -51,12 +51,13 @@
 ### Password Recovery Redirect (reset-password)
 - Route: `/reset-password` (client-driven via URL fragment from Supabase recovery link)
 - Inputs: fragment params such as `#access_token=...&type=recovery&email=...` or error params `#error=...&error_description=...`.
+- Missing params: if neither `access_token` nor `error` are present in the fragment, redirect to `/` (homepage).
 - Success Path:
   - Shows a simple form with fields: New password, Confirm password, and a Submit button.
   - Uses Supabase `auth.updateUser({ password })` with the recovery `access_token` when environment is configured.
   - For local/tests without Supabase env, submits navigate to `/reset-password/success` to keep tests deterministic.
 - Error Path:
-  - When `error` is present in fragment, shows heading “Oops, we couldn't reset your password” and displays `error_description` (fallback to “Unknown”).
+  - When `error` is present in fragment, shows heading “Oops, we couldn't reset your password”, displays `error_description` (fallback to “Unknown”), and includes: “Please contact us at contact@roctrades.com for more assistance.” (mailto link).
 - Success Page:
   - Route: `/reset-password/success` with heading “Password updated” and copy “Successfully updated password, please get back to the app.”
 - Security Notes:
