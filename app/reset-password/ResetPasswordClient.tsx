@@ -21,6 +21,7 @@ export default function ResetPasswordClient() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [errorKey, setErrorKey] = useState(0);
 
   useEffect(() => {
     const read = () => setFragmentParams(parseHashParams(window.location.hash));
@@ -46,14 +47,17 @@ export default function ResetPasswordClient() {
 
     if (!merged.access_token) {
       setError('Missing or invalid recovery token. Please use the link from your email.');
+      setErrorKey((k) => k + 1);
       return;
     }
     if (!password) {
       setError('Please enter your new password.');
+      setErrorKey((k) => k + 1);
       return;
     }
     if (password !== confirmPassword) {
       setError('Passwords do not match.');
+      setErrorKey((k) => k + 1);
       return;
     }
 
@@ -68,12 +72,14 @@ export default function ResetPasswordClient() {
       const { error: updateError } = await supabase.auth.updateUser({ password });
       if (updateError) {
         setError(updateError.message || 'Unable to update password. Please try again.');
+        setErrorKey((k) => k + 1);
         setSubmitting(false);
         return;
       }
       router.push('/reset-password/success');
     } catch {
       setError('Unexpected error. Please try again.');
+      setErrorKey((k) => k + 1);
       setSubmitting(false);
     }
   }
@@ -135,12 +141,12 @@ export default function ResetPasswordClient() {
             </div>
 
             {error && (
-              <p className="text-sm text-red-600">{error}</p>
+              <p key={errorKey} className="text-sm text-red-600 rt-animate-shake">{error}</p>
             )}
 
             <button
               type="submit"
-              className="rounded-md px-5 py-3 text-sm font-semibold text-white shadow-sm"
+              className="rounded-md px-5 py-3 text-sm font-semibold text-white shadow-sm cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 hover:opacity-90 transition-opacity"
               style={{ backgroundColor: 'var(--color-rochester-blue)' }}
               disabled={submitting}
             >
