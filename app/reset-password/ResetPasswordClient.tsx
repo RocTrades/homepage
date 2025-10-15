@@ -17,6 +17,7 @@ function parseHashParams(hash: string): Record<string, string> {
 export default function ResetPasswordClient() {
   const router = useRouter();
   const [fragmentParams, setFragmentParams] = useState<Record<string, string>>({});
+  const [stored, setStored] = useState<Record<string, string> | null>(null);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -27,10 +28,49 @@ export default function ResetPasswordClient() {
     const read = () => {
       const params = parseHashParams(window.location.hash);
       setFragmentParams(params);
+
+      // Handle error flow: store and clean URL to /reset-password/error
+      if (params.error) {
+        try {
+          sessionStorage.setItem(
+            'rt_recovery_error',
+            JSON.stringify({
+              error: params.error,
+              error_description: params.error_description || '',
+            })
+          );
+        } catch {}
+        router.replace('/reset-password/error');
+        return;
+      }
+
+      // Handle success flow: store token and clean URL to /reset-password
+      if (params.access_token) {
+        try {
+          sessionStorage.setItem(
+            'rt_recovery_token',
+            JSON.stringify({
+              access_token: params.access_token,
+              email: params.email || '',
+            })
+          );
+        } catch {}
+        router.replace('/reset-password');
+        return;
+      }
+
+      // Load stored token if present (after URL cleaned)
+      try {
+        const raw = sessionStorage.getItem('rt_recovery_token');
+        setStored(raw ? JSON.parse(raw) : null);
+      } catch {
+        setStored(null);
+      }
+
+      // If nothing at all, go home
       if (!params.access_token && !params.error) {
-        // If no relevant recovery params, send user back to homepage
-        // Use replace to avoid trapping back navigation
-        router.replace('/');
+        const raw = typeof window !== 'undefined' ? sessionStorage.getItem('rt_recovery_token') : null;
+        if (!raw) router.replace('/');
       }
     };
     read();
@@ -40,12 +80,12 @@ export default function ResetPasswordClient() {
 
   const merged = useMemo(() => {
     return {
-      access_token: fragmentParams.access_token,
-      email: fragmentParams.email,
+      access_token: fragmentParams.access_token || stored?.access_token,
+      email: fragmentParams.email || stored?.email,
       error: fragmentParams.error,
       error_description: fragmentParams.error_description,
-    };
-  }, [fragmentParams]);
+    } as Record<string, string | undefined>;
+  }, [fragmentParams, stored]);
 
   const isError = Boolean(merged.error);
 
@@ -60,6 +100,11 @@ export default function ResetPasswordClient() {
     }
     if (!password) {
       setError('Please enter your new password.');
+      setErrorKey((k) => k + 1);
+      return;
+    }
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters.');
       setErrorKey((k) => k + 1);
       return;
     }

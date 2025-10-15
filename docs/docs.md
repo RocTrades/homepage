@@ -51,13 +51,16 @@
 ### Password Recovery Redirect (reset-password)
 - Route: `/reset-password` (client-driven via URL fragment from Supabase recovery link)
 - Inputs: fragment params such as `#access_token=...&type=recovery&email=...` or error params `#error=...&error_description=...`.
-- Missing params: if neither `access_token` nor `error` are present in the fragment, redirect to `/` (homepage).
+ - Missing params: if neither `access_token` nor `error` are present in the fragment and no stored token exists, redirect to `/` (homepage).
 - Success Path:
   - Shows a simple form with fields: New password, Confirm password, and a Submit button.
+  - Client-side validation: password must be at least 6 characters; confirm must match.
   - Uses Supabase `auth.updateUser({ password })` with the recovery `access_token` when environment is configured.
   - For local/tests without Supabase env, submits navigate to `/reset-password/success` to keep tests deterministic.
-- Error Path:
-  - When `error` is present in fragment, shows heading “Oops, we couldn't reset your password”, displays `error_description` (fallback to “Unknown”), and includes: “Please contact us at contact@roctrades.com for more assistance.” (mailto link).
+ - Error Path:
+   - When `error` is present in fragment, store error into `sessionStorage` and navigate to `/reset-password/error`, where we show heading “Oops, we couldn't reset your password”, display `error_description` (fallback to “Unknown”), and include: “Please contact us at contact@roctrades.com for more assistance.” (mailto link).
+ - Token Handling:
+   - When `access_token` is present in fragment, store `{ access_token, email }` in `sessionStorage` and clean the URL to plain `/reset-password`.
 - Success Page:
   - Route: `/reset-password/success` with heading “Password updated” and copy “Successfully updated password, please get back to the app.”
 - Security Notes:

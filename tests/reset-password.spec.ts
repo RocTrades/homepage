@@ -45,10 +45,23 @@ test.describe('Reset Password', () => {
     await expect(page.getByText('Passwords do not match.')).toBeVisible();
   });
 
-  test('shows error state when fragment has error parameters', async ({ page }) => {
+  test('shows error when password is shorter than 6 characters', async ({ page }) => {
+    const email = 'student@rochester.edu';
+    const hash = `#access_token=abc123&type=recovery&email=${encodeURIComponent(email)}`;
+    await page.goto(`/reset-password${hash}`);
+
+    await page.getByLabel('New password').fill('123');
+    await page.getByLabel('Confirm password').fill('123');
+    await page.getByRole('button', { name: 'Submit' }).click();
+
+    await expect(page.getByText('Password must be at least 6 characters.')).toBeVisible();
+  });
+
+  test('redirects to error page when fragment has error parameters', async ({ page }) => {
     const fragment = '#error=access_denied&error_code=otp_expired&error_description=Email%20link%20is%20invalid%20or%20has%20expired';
     await page.goto(`/reset-password${fragment}`);
 
+    await expect(page).toHaveURL(/\/reset-password\/error/);
     await expect(page.getByRole('heading', { name: "Oops, we couldn't reset your password" })).toBeVisible();
     await expect(page.getByText('Email link is invalid or has expired')).toBeVisible();
   });

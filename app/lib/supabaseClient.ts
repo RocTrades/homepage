@@ -7,7 +7,6 @@ export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
 
 if (!supabaseUrl || !supabaseAnonKey) {
   // Intentionally not throwing to allow pages to render; actions will guard.
-  // eslint-disable-next-line no-console
   console.warn('Supabase URL or Anon Key is not configured.');
 }
 

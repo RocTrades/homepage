@@ -30,5 +30,7 @@ npm run test
   - Expects navigation to `/reset-password/success`, heading “Password updated”, and text “Successfully updated password, please get back to the app.”
 - Validation failure: mismatch passwords
   - Expects inline error text “Passwords do not match.”.
+- Validation failure: password too short
+  - Expects inline error text “Password must be at least 6 characters.”
 - Fragment error params: `/reset-password#error=access_denied&error_code=otp_expired&error_description=Email%20link%20is%20invalid%20or%20has%20expired`
-  - Expects heading “Oops, we couldn't reset your password” and details “Email link is invalid or has expired”.
+  - Expects redirect to `/reset-password/error` and details “Email link is invalid or has expired”.
