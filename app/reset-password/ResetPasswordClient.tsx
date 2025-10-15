@@ -24,11 +24,19 @@ export default function ResetPasswordClient() {
   const [errorKey, setErrorKey] = useState(0);
 
   useEffect(() => {
-    const read = () => setFragmentParams(parseHashParams(window.location.hash));
+    const read = () => {
+      const params = parseHashParams(window.location.hash);
+      setFragmentParams(params);
+      if (!params.access_token && !params.error) {
+        // If no relevant recovery params, send user back to homepage
+        // Use replace to avoid trapping back navigation
+        router.replace('/');
+      }
+    };
     read();
     window.addEventListener('hashchange', read);
     return () => window.removeEventListener('hashchange', read);
-  }, []);
+  }, [router]);
 
   const merged = useMemo(() => {
     return {
@@ -97,6 +105,12 @@ export default function ResetPasswordClient() {
             </h1>
             <p className="mt-4 text-base sm:text-lg leading-7 text-foreground/80">
               {merged.error_description || 'Unknown'}
+            </p>
+            <p className="mt-2 text-base sm:text-lg leading-7 text-foreground/80">
+              Please contact us at <a
+                href="mailto:contact@roctrades.com"
+                className="underline"
+              >contact@roctrades.com</a> for more assistance.
             </p>
           </div>
         </section>
