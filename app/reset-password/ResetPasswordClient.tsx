@@ -54,6 +54,7 @@ export default function ResetPasswordClient() {
               email: params.email || '',
             })
           );
+          setStored({ access_token: params.access_token, email: params.email || '' });
         } catch {}
         router.replace('/reset-password');
         return;
@@ -79,13 +80,14 @@ export default function ResetPasswordClient() {
   }, [router]);
 
   const merged = useMemo(() => {
+    console.log('stored', stored);
     return {
-      access_token: fragmentParams.access_token || stored?.access_token,
-      email: fragmentParams.email || stored?.email,
+      access_token: stored?.access_token,
+      email: stored?.email,
       error: fragmentParams.error,
       error_description: fragmentParams.error_description,
     } as Record<string, string | undefined>;
-  }, [fragmentParams, stored]);
+  }, [fragmentParams.error, fragmentParams.error_description, stored]);
 
   const isError = Boolean(merged.error);
 
@@ -121,6 +123,7 @@ export default function ResetPasswordClient() {
         router.push('/reset-password/success');
         return;
       }
+      console.log('merged', merged);
       const supabase = getSupabaseClient(merged.access_token);
       const { error: updateError } = await supabase.auth.updateUser({ password });
       if (updateError) {
