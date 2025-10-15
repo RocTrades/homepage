@@ -48,6 +48,24 @@
 - Implementation: server component awaits `searchParams`, passes initial values (including `confirmation_url`) to a client component that also parses URL fragment (`window.location.hash`) and merges values (fragment takes precedence). No tokens are persisted; purely presentational for v0.
 - Styling/UX: matches brand tokens (`--color-rochester-blue` for actions), semantic headings, and responsive spacing consistent with the hero.
 
+### Password Recovery Redirect (reset-password)
+- Route: `/reset-password` (client-driven via URL fragment from Supabase recovery link)
+- Inputs: fragment params such as `#access_token=...&type=recovery&email=...` or error params `#error=...&error_description=...`.
+ - Missing params: if neither `access_token` nor `error` are present in the fragment and no stored token exists, redirect to `/` (homepage).
+- Success Path:
+  - Shows a simple form with fields: New password, Confirm password, and a Submit button.
+  - Client-side validation: password must be at least 6 characters; confirm must match.
+  - Uses Supabase `auth.updateUser({ password })` with the recovery `access_token` when environment is configured.
+  - For local/tests without Supabase env, submits navigate to `/reset-password/success` to keep tests deterministic.
+ - Error Path:
+   - When `error` is present in fragment, store error into `sessionStorage` and navigate to `/reset-password/error`, where we show heading “Oops, we couldn't reset your password”, display `error_description` (fallback to “Unknown”), and include: “Please contact us at contact@roctrades.com for more assistance.” (mailto link).
+ - Token Handling:
+   - When `access_token` is present in fragment, store `{ access_token, email }` in `sessionStorage` and clean the URL to plain `/reset-password`.
+- Success Page:
+  - Route: `/reset-password/success` with heading “Password updated” and copy “Successfully updated password, please get back to the app.”
+- Security Notes:
+  - We do not persist tokens; `persistSession: false` and no local storage. Access token, if present, is only used for the single update call.
+
 ### What’s NOT in v0
 - Auth and `.rochester.edu` verification, real listings, chat, payments — placeholders only.
 - Full brand typography, logo, or complex components — kept intentionally simple.
