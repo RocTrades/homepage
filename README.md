@@ -66,6 +66,21 @@ Notes:
 - The config starts the dev server automatically (`npm run dev`) and targets `http://localhost:3000`.
 - To run a single file: `npx playwright test tests/confirm-email.spec.ts`.
 
+## Environment
+
+Create a `.env.local` file with public Supabase vars:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=https://ycvyvpanzpvcmnujprtg.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inljdnl2cGFuenB2Y21udWpwcnRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyMTg2NDEsImV4cCI6MjA3Mzc5NDY0MX0.cdj3ELvr7yI66bUYLtfh5_qs1l_tpiKFHzhPYdsbyEY
+```
+
+Optional for test runs to avoid real network calls during E2E:
+
+```bash
+NEXT_PUBLIC_E2E=1
+```
+
 ## Development instruction
 
 This is a vibe-first codebase. See `docs/vibes.md` for the chatbot guidelines used in this repo.

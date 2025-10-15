@@ -48,6 +48,20 @@
 - Implementation: server component awaits `searchParams`, passes initial values (including `confirmation_url`) to a client component that also parses URL fragment (`window.location.hash`) and merges values (fragment takes precedence). No tokens are persisted; purely presentational for v0.
 - Styling/UX: matches brand tokens (`--color-rochester-blue` for actions), semantic headings, and responsive spacing consistent with the hero.
 
+### Password Recovery Redirect (reset-password)
+- Route: `/reset-password` (client-driven via URL fragment from Supabase recovery link)
+- Inputs: fragment params such as `#access_token=...&type=recovery&email=...` or error params `#error=...&error_description=...`.
+- Success Path:
+  - Shows a simple form with fields: New password, Confirm password, and a Submit button.
+  - Uses Supabase `auth.updateUser({ password })` with the recovery `access_token` when environment is configured.
+  - For local/tests without Supabase env, submits navigate to `/reset-password/success` to keep tests deterministic.
+- Error Path:
+  - When `error` is present in fragment, shows heading “Oops, we couldn't reset your password” and displays `error_description` (fallback to “Unknown”).
+- Success Page:
+  - Route: `/reset-password/success` with heading “Password updated” and copy “Successfully updated password, please get back to the app.”
+- Security Notes:
+  - We do not persist tokens; `persistSession: false` and no local storage. Access token, if present, is only used for the single update call.
+
 ### What’s NOT in v0
 - Auth and `.rochester.edu` verification, real listings, chat, payments — placeholders only.
 - Full brand typography, logo, or complex components — kept intentionally simple.
