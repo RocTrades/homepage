@@ -59,7 +59,7 @@ Optional:
 npm run test:headed
 
 # Playwright Test UI
-npm run test:ui
+npm run test:ui 
 ```
 
 Notes:
