@@ -3,8 +3,8 @@ export default function Home() {
   const playStoreUrl = process.env.NEXT_PUBLIC_PLAY_STORE_URL;
 
   return (
-    <main className="min-h-screen font-sans flex items-center">
-      <section className="w-full">
+    <main className="min-h-screen font-sans flex flex-col">
+      <section className="w-full flex-1 flex items-center">
         <div className="mx-auto max-w-3xl px-6 py-24 sm:py-32">
           <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-medium" style={{ backgroundColor: "var(--color-rochester-yellow)", color: "#111827" }}>
             For University of Rochester students
@@ -58,6 +58,16 @@ export default function Home() {
           </p>
         </div>
       </section>
+
+      <footer className="w-full border-t border-black/10">
+        <div className="mx-auto max-w-3xl px-6 py-6 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-sm">
+          <span className="text-foreground/60">© {new Date().getFullYear()} RocTrades</span>
+          <nav className="flex items-center gap-4">
+            <a className="underline text-foreground/80 hover:text-foreground" href="/privacy-policy">Privacy Policy</a>
+            <a className="underline text-foreground/80 hover:text-foreground" href="/terms-of-service">Terms of Service</a>
+          </nav>
+        </div>
+      </footer>
     </main>
   );
 }

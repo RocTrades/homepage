@@ -16,6 +16,28 @@
 - Fragment error params (from auth providers): `/confirm-signup#error=access_denied&error_code=otp_expired&error_description=Email%20link%20is%20invalid%20or%20has%20expired`
   - Expects heading above and details “Email link is invalid or has expired”.
 
+### privacy-policy.spec.ts
+- Route: `/privacy-policy`
+  - Returns 200.
+  - Shows heading “Privacy Policy”.
+  - Shows “Last updated: October 14, 2025”.
+  - Contains sections “Interpretation and Definitions”, “Collecting and Using Your Personal Data”, “Children's Privacy”.
+  - Displays contact email `contact@roctrades.com`.
+
+### terms-of-service.spec.ts
+- Route: `/terms-of-service`
+  - Returns 200.
+  - Shows heading “Terms of Service”.
+  - Shows “Last updated: October 14, 2025”.
+  - Intro references RocTrades, New York, and mobile app description.
+  - TOC items include “1. OUR SERVICES” and “2. INTELLECTUAL PROPERTY RIGHTS”.
+  - Displays contact email `contact@roctrades.com` and “Rochester, NY 14627”.
+
+### homepage-footer.spec.ts
+- Home route: `/`
+  - Footer is visible and contains links labeled “Privacy Policy” and “Terms of Service”.
+  - Links point to `/privacy-policy` and `/terms-of-service` respectively.
+
 Run:
 
 ```bash
