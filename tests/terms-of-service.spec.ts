@@ -18,8 +18,8 @@ test.describe('Terms of Service page', () => {
     await expect(page.getByRole('heading', { name: '2. INTELLECTUAL PROPERTY RIGHTS' })).toBeVisible();
 
     // Contact section
-    await expect(page.getByText('contact@roctrades.com')).toBeVisible();
     const contactAddress = page.locator('address');
+    await expect(contactAddress.getByRole('link', { name: 'contact@roctrades.com' })).toBeVisible();
     await expect(contactAddress.getByText('Rochester, NY 14627')).toBeVisible();
   });
 });
