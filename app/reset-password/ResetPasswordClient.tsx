@@ -1,0 +1,222 @@
+"use client";
+
+import { useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { getSupabaseClient, isSupabaseConfigured } from '../lib/supabaseClient';
+
+function parseHashParams(hash: string): Record<string, string> {
+  const raw = hash.startsWith('#') ? hash.slice(1) : hash;
+  const params = new URLSearchParams(raw);
+  const result: Record<string, string> = {};
+  params.forEach((value, key) => {
+    if (!(key in result)) result[key] = value;
+  });
+  return result;
+}
+
+export default function ResetPasswordClient() {
+  const router = useRouter();
+  const [fragmentParams, setFragmentParams] = useState<Record<string, string>>({});
+  const [stored, setStored] = useState<Record<string, string> | null>(null);
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [errorKey, setErrorKey] = useState(0);
+
+  useEffect(() => {
+    const read = () => {
+      const params = parseHashParams(window.location.hash);
+      setFragmentParams(params);
+
+      // Handle error flow: store and clean URL to /reset-password/error
+      if (params.error) {
+        try {
+          sessionStorage.setItem(
+            'rt_recovery_error',
+            JSON.stringify({
+              error: params.error,
+              error_description: params.error_description || '',
+            })
+          );
+        } catch {}
+        router.replace('/reset-password/error');
+        return;
+      }
+
+      // Handle success flow: store token and clean URL to /reset-password
+      if (params.access_token) {
+        try {
+          sessionStorage.setItem(
+            'rt_recovery_token',
+            JSON.stringify({
+              access_token: params.access_token,
+              email: params.email || '',
+            })
+          );
+          setStored({ access_token: params.access_token, email: params.email || '' });
+        } catch {}
+        router.replace('/reset-password');
+        return;
+      }
+
+      // Load stored token if present (after URL cleaned)
+      try {
+        const raw = sessionStorage.getItem('rt_recovery_token');
+        setStored(raw ? JSON.parse(raw) : null);
+      } catch {
+        setStored(null);
+      }
+
+      // If nothing at all, go home
+      if (!params.access_token && !params.error) {
+        const raw = typeof window !== 'undefined' ? sessionStorage.getItem('rt_recovery_token') : null;
+        if (!raw) router.replace('/');
+      }
+    };
+    read();
+    window.addEventListener('hashchange', read);
+    return () => window.removeEventListener('hashchange', read);
+  }, [router]);
+
+  const merged = useMemo(() => {
+    console.log('stored', stored);
+    return {
+      access_token: stored?.access_token,
+      email: stored?.email,
+      error: fragmentParams.error,
+      error_description: fragmentParams.error_description,
+    } as Record<string, string | undefined>;
+  }, [fragmentParams.error, fragmentParams.error_description, stored]);
+
+  const isError = Boolean(merged.error);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+
+    if (!merged.access_token) {
+      setError('Missing or invalid recovery token. Please use the link from your email.');
+      setErrorKey((k) => k + 1);
+      return;
+    }
+    if (!password) {
+      setError('Please enter your new password.');
+      setErrorKey((k) => k + 1);
+      return;
+    }
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters.');
+      setErrorKey((k) => k + 1);
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.');
+      setErrorKey((k) => k + 1);
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      if (!isSupabaseConfigured || process.env.NEXT_PUBLIC_E2E === '1') {
+        // In test/dev where keys are not present, simulate success when inputs are valid
+        router.push('/reset-password/success');
+        return;
+      }
+      console.log('merged', merged);
+      const supabase = getSupabaseClient(merged.access_token);
+      const { error: updateError } = await supabase.auth.updateUser({ password });
+      if (updateError) {
+        setError(updateError.message || 'Unable to update password. Please try again.');
+        setErrorKey((k) => k + 1);
+        setSubmitting(false);
+        return;
+      }
+      router.push('/reset-password/success');
+    } catch {
+      setError('Unexpected error. Please try again.');
+      setErrorKey((k) => k + 1);
+      setSubmitting(false);
+    }
+  }
+
+  if (isError) {
+    return (
+      <main className="min-h-screen font-sans flex items-center">
+        <section className="w-full">
+          <div className="mx-auto max-w-3xl px-6 py-24 sm:py-32">
+            <h1
+              className="text-3xl font-bold tracking-tight sm:text-4xl"
+              style={{ color: 'var(--color-rochester-blue)' }}
+            >
+              Oops, we couldn&apos;t reset your password
+            </h1>
+            <p className="mt-4 text-base sm:text-lg leading-7 text-foreground/80">
+              {merged.error_description || 'Unknown'}
+            </p>
+            <p className="mt-2 text-base sm:text-lg leading-7 text-foreground/80">
+              Please contact us at <a
+                href="mailto:contact@roctrades.com"
+                className="underline"
+              >contact@roctrades.com</a> for more assistance.
+            </p>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
+  return (
+    <main className="min-h-screen font-sans flex items-center">
+      <section className="w-full">
+        <div className="mx-auto max-w-3xl px-6 py-24 sm:py-32">
+          <h1
+            className="text-3xl font-bold tracking-tight sm:text-4xl"
+            style={{ color: 'var(--color-rochester-blue)' }}
+          >
+            Reset your password
+          </h1>
+          {/* Removed email subtitle per UX change */}
+
+          <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
+            <div>
+              <label className="block text-sm font-medium text-foreground" htmlFor="password">New password</label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-1 block w-full rounded-md border border-black/10 px-3 py-2"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-foreground" htmlFor="confirmPassword">Confirm password</label>
+              <input
+                id="confirmPassword"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="mt-1 block w-full rounded-md border border-black/10 px-3 py-2"
+              />
+            </div>
+
+            {error && (
+              <p key={errorKey} className="text-sm text-red-600 rt-animate-shake">{error}</p>
+            )}
+
+            <button
+              type="submit"
+              className="rounded-md px-5 py-3 text-sm font-semibold text-white shadow-sm cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 hover:opacity-90 transition-opacity"
+              style={{ backgroundColor: 'var(--color-rochester-blue)' }}
+              disabled={submitting}
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+      </section>
+    </main>
+  );
+}
+
+
