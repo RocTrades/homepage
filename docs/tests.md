@@ -38,6 +38,16 @@
   - Footer is visible and contains links labeled “Privacy Policy” and “Terms of Service”.
   - Links point to `/privacy-policy` and `/terms-of-service` respectively.
 
+### account-deletion-guide.spec.ts
+- Route: `/guides/account-deletion`
+  - Shows H1 “Delete RocTrades Account”.
+  - Intro mentions both “iOS” and “Android” (same procedure).
+  - Breadcrumbs nav exists (`aria-label="Breadcrumbs"`) with links to `/` and `/guides` and current page label.
+  - Six steps rendered with H2 headings “Step 1” … “Step 6”.
+  - Each step displays an image with `alt` containing “Step N” pointing to `/guides/account-deletion/N.jpg`.
+  - Callout note includes “takes about a minute”; Step 6 heading includes “Success Prompt”.
+  - No horizontal overflow at 1280×800 and 375×812.
+
 Run:
 
 ```bash

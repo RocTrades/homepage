@@ -1,5 +1,5 @@
 export default function Home() {
-  const appStoreUrl = process.env.NEXT_PUBLIC_APP_STORE_URL;
+  const appStoreUrl = process.env.NEXT_PUBLIC_APP_STORE_URL || "https://apps.apple.com/ng/app/roctrades/id6754180431";
   const playStoreUrl = process.env.NEXT_PUBLIC_PLAY_STORE_URL;
 
   return (
@@ -63,6 +63,7 @@ export default function Home() {
         <div className="mx-auto max-w-3xl px-6 py-6 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-sm">
           <span className="text-foreground/60">© {new Date().getFullYear()} RocTrades</span>
           <nav className="flex items-center gap-4">
+            <a className="underline text-foreground/80 hover:text-foreground" href="/guides">Guides</a>
             <a className="underline text-foreground/80 hover:text-foreground" href="/privacy-policy">Privacy Policy</a>
             <a className="underline text-foreground/80 hover:text-foreground" href="/terms-of-service">Terms of Service</a>
           </nav>
