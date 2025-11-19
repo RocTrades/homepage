@@ -33,6 +33,28 @@ test.describe('Account Deletion Guide', () => {
     // Callout/note about 1 minute and success prompt
     await expect(page.getByRole('note').getByText(/takes about a minute/i)).toBeVisible();
     await expect(page.getByRole('heading', { level: 2, name: /Success Prompt/i })).toBeVisible();
+
+    // Google Play compliance accordion
+    // Expand accordion (<summary> element)
+    const accordionSummary = page.locator('summary', { hasText: /Account deletion information \(Google Play\)/i });
+    await accordionSummary.first().click();
+
+    const accordion = page.locator('details');
+    await expect(accordion.getByText(/App:\s*RocTrades/i)).toBeVisible();
+    await expect(accordion.getByText(/Developer:\s*RocTrades Team/i)).toBeVisible();
+
+    // Steps links present inside accordion
+    await expect(accordion.locator('a[href="#step-1"]')).toBeVisible(); // Account
+    await expect(accordion.locator('a[href="#step-2"]')).toBeVisible(); // Settings
+    await expect(accordion.locator('a[href="#step-4"]')).toBeVisible(); // Delete Account
+    await expect(accordion.locator('a[href="#step-5"]')).toBeVisible(); // confirm deletion
+
+    // Deleted data specifics
+    await expect(accordion.getByText(/listings and draft listings/i)).toBeVisible();
+    await expect(accordion.getByText(/purchase history/i)).toBeVisible();
+    await expect(accordion.getByText(/favorites listing history/i)).toBeVisible();
+    await expect(accordion.getByText(/email, password/i)).toBeVisible();
+    await expect(accordion.getByText(/school year, hall location, major/i)).toBeVisible();
   });
 
   test('has no horizontal overflow on common viewports', async ({ page }) => {

@@ -1,4 +1,6 @@
+/* eslint-disable react/no-unescaped-entities */
 import Image from "next/image";
+import Link from "next/link";
 
 export const metadata = {
   title: "Delete RocTrades Account | RocTrades Guides",
@@ -29,15 +31,11 @@ export default function AccountDeletionGuidePage() {
           >
             <ol className="flex items-center gap-2 flex-wrap">
               <li>
-                <a className="underline hover:text-foreground" href="/">
-                  Home
-                </a>
+                <Link className="underline hover:text-foreground" href="/">Home</Link>
               </li>
               <li aria-hidden="true">/</li>
               <li>
-                <a className="underline hover:text-foreground" href="/guides">
-                  Guides
-                </a>
+                <Link className="underline hover:text-foreground" href="/guides">Guides</Link>
               </li>
               <li aria-hidden="true">/</li>
               <li aria-current="page" className="text-foreground">
@@ -68,6 +66,66 @@ export default function AccountDeletionGuidePage() {
               you'll see a <strong>success prompt</strong> confirming the deletion.
             </p>
           </div>
+
+          <p className="mt-6 text-base leading-7 text-foreground/80">
+            Need help? Please contact us at{" "}
+            <a href="mailto:contact@roctrades.com" className="underline">
+              contact@roctrades.com
+            </a>{" "}
+            for more assistance.
+          </p>
+
+          <details className="mt-12 rounded-md border border-black/10">
+            <summary className="cursor-pointer px-4 py-3 text-base sm:text-lg font-semibold text-foreground">
+              Account deletion information (Google Play)
+            </summary>
+            <div className="px-4 pb-4 pt-2">
+              <p className="mt-2 text-base leading-7 text-foreground/80">
+                App: <span className="font-semibold">RocTrades</span>. Developer:{" "}
+                <span className="font-semibold">RocTrades Team</span>.
+              </p>
+
+              <h3 className="mt-6 text-xl font-semibold text-foreground">
+                Steps to request account deletion
+              </h3>
+              <ul className="mt-2 list-disc pl-6 text-base leading-7 text-foreground/80">
+                <li>
+                  In the app, go to <a href="#step-1" className="underline">Account</a> →{" "}
+                  <a href="#step-2" className="underline">Settings</a> →{" "}
+                  <a href="#step-4" className="underline">Delete Account</a>, then{" "}
+                  <a href="#step-5" className="underline">confirm deletion</a>.
+                </li>
+                <li>
+                  If you cannot access the app, email{" "}
+                  <a href="mailto:contact@roctrades.com" className="underline">
+                    contact@roctrades.com
+                  </a>{" "}
+                  with the subject “Account deletion request” from your registered email address.
+                </li>
+              </ul>
+
+              <h3 className="mt-6 text-xl font-semibold text-foreground">
+                Data deleted vs kept, and retention
+              </h3>
+              <ul className="mt-2 list-disc pl-6 text-base leading-7 text-foreground/80">
+                <li>
+                  <span className="font-semibold">Deleted</span>: your listings and draft listings; purchase
+                  history; favorites listing history; account credentials and profile information
+                  (email, password); personal information you provided (school year, hall location, major);
+                  and related media.
+                </li>
+                <li>
+                  <span className="font-semibold">Temporarily retained</span>: minimal audit/support
+                  logs and system backups may persist for a limited period (up to 30–90 days) for
+                  security, anti‑abuse, and disaster recovery, after which they are purged.
+                </li>
+                <li>
+                  <span className="font-semibold">Kept (non‑personal)</span>: aggregate or de‑identified
+                  analytics that do not identify you may be retained to improve service quality.
+                </li>
+              </ul>
+            </div>
+          </details>
 
           <div className="mt-10 space-y-16">
             <section aria-labelledby="step-1">

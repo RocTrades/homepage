@@ -48,6 +48,13 @@
   - Assets: images live in `public/guides/account-deletion/1.jpg` … `6.jpg`.
   - Accessibility: semantic headings (single H1), images with descriptive `alt`, breadcrumb `nav` with `aria-label="Breadcrumbs"`.
   - Styling: matches homepage primitives (Rochester Blue for headings, Yellow for highlighted note), constrained to `max-w-3xl` with responsive images.
+  - Compliance:
+    - An accordion “Account deletion information (Google Play)” summarizes:
+      - App: RocTrades; Developer: RocTrades Team.
+      - Steps to request deletion with links to in-page steps (`#step-1`, `#step-2`, `#step-4`, `#step-5`).
+      - Deleted data: listings and draft listings; purchase history; favorites listing history; email and password; personal info (school year, hall location, major).
+      - Retention: minimal audit/support logs and system backups may persist temporarily (30–90 days) for security/DR, then purged; de‑identified aggregates may be retained.
+    - Support: users can email `contact@roctrades.com` for assistance.
 
 ### Environment Variables
 - `NEXT_PUBLIC_APP_STORE_URL`: iOS App Store link (e.g., `https://apps.apple.com/app/idXXXXXXXXX`).

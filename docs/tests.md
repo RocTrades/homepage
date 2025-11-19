@@ -46,6 +46,10 @@
   - Six steps rendered with H2 headings “Step 1” … “Step 6”.
   - Each step displays an image with `alt` containing “Step N” pointing to `/guides/account-deletion/N.jpg`.
   - Callout note includes “takes about a minute”; Step 6 heading includes “Success Prompt”.
+  - Accordion “Account deletion information (Google Play)” expands to show:
+    - App: RocTrades; Developer: RocTrades Team.
+    - Steps links to `#step-1` (Account), `#step-2` (Settings), `#step-4` (Delete Account), `#step-5` (confirm deletion).
+    - Deleted data includes: listings and draft listings; purchase history; favorites listing history; email and password; personal info (school year, hall location, major).
   - No horizontal overflow at 1280×800 and 375×812.
 
 Run:
