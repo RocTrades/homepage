@@ -23,11 +23,15 @@ export default function Home() {
                 href={appStoreUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-md px-5 py-3 text-sm font-semibold text-white shadow-sm w-full sm:w-auto text-center"
-                style={{ backgroundColor: "var(--color-rochester-blue)" }}
+                className="rounded-xl h-12 inline-flex items-center justify-center w-full sm:w-auto text-center"
                 aria-label="Download on the App Store"
               >
-                Download on the App Store
+                <img
+                  src="/badges/apple_app_store_download_button.svg"
+                  alt="Download on the App Store"
+                  className="h-12 w-auto select-none"
+                  draggable={false}
+                />
               </a>
             ) : (
               <span className="rounded-md px-5 py-3 text-sm font-semibold text-foreground/60 border border-black/10 w-full sm:w-auto text-center">
@@ -40,11 +44,15 @@ export default function Home() {
                 href={playStoreUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-md px-5 py-3 text-sm font-semibold text-white shadow-sm w-full sm:w-auto text-center"
-                style={{ backgroundColor: "var(--color-rochester-blue)" }}
+                className="rounded-xl h-12 inline-flex items-center justify-center w-full sm:w-auto text-center"
                 aria-label="Get it on Google Play"
               >
-                Get it on Google Play
+                <img
+                  src="/badges/google_play_store_download_button.svg"
+                  alt="Get it on Google Play"
+                  className="h-12 w-auto select-none"
+                  draggable={false}
+                />
               </a>
             ) : (
               <span className="rounded-md px-5 py-3 text-sm font-semibold text-foreground/60 border border-black/10 w-full sm:w-auto text-center">
