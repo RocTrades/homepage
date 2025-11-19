@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Link from "next/link";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -42,7 +43,20 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <div className="min-h-screen flex flex-col">
+          <div className="flex-1">{children}</div>
+          <footer className="w-full border-t border-black/10">
+            <div className="mx-auto max-w-3xl px-6 py-6 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-sm">
+              <span className="text-foreground/60">© {new Date().getFullYear()} RocTrades</span>
+              <nav className="flex items-center gap-4">
+                <Link className="underline text-foreground/80 hover:text-foreground" href="/guides">Guides</Link>
+                <Link className="underline text-foreground/80 hover:text-foreground" href="/privacy-policy">Privacy Policy</Link>
+                <Link className="underline text-foreground/80 hover:text-foreground" href="/terms-of-service">Terms of Service</Link>
+                <span className="text-foreground/80">contact@roctrades.com</span>
+              </nav>
+            </div>
+          </footer>
+        </div>
       </body>
     </html>
   );

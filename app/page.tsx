@@ -1,5 +1,5 @@
 export default function Home() {
-  const appStoreUrl = process.env.NEXT_PUBLIC_APP_STORE_URL;
+  const appStoreUrl = process.env.NEXT_PUBLIC_APP_STORE_URL || "https://apps.apple.com/ng/app/roctrades/id6754180431";
   const playStoreUrl = process.env.NEXT_PUBLIC_PLAY_STORE_URL;
 
   return (
@@ -23,11 +23,15 @@ export default function Home() {
                 href={appStoreUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-md px-5 py-3 text-sm font-semibold text-white shadow-sm w-full sm:w-auto text-center"
-                style={{ backgroundColor: "var(--color-rochester-blue)" }}
+                className="rounded-xl h-12 inline-flex items-center justify-center w-full sm:w-auto text-center"
                 aria-label="Download on the App Store"
               >
-                Download on the App Store
+                <img
+                  src="/badges/apple_app_store_download_button.svg"
+                  alt="Download on the App Store"
+                  className="h-12 w-auto select-none"
+                  draggable={false}
+                />
               </a>
             ) : (
               <span className="rounded-md px-5 py-3 text-sm font-semibold text-foreground/60 border border-black/10 w-full sm:w-auto text-center">
@@ -40,11 +44,15 @@ export default function Home() {
                 href={playStoreUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-md px-5 py-3 text-sm font-semibold text-white shadow-sm w-full sm:w-auto text-center"
-                style={{ backgroundColor: "var(--color-rochester-blue)" }}
+                className="rounded-xl h-12 inline-flex items-center justify-center w-full sm:w-auto text-center"
                 aria-label="Get it on Google Play"
               >
-                Get it on Google Play
+                <img
+                  src="/badges/google_play_store_download_button.svg"
+                  alt="Get it on Google Play"
+                  className="h-12 w-auto select-none"
+                  draggable={false}
+                />
               </a>
             ) : (
               <span className="rounded-md px-5 py-3 text-sm font-semibold text-foreground/60 border border-black/10 w-full sm:w-auto text-center">
@@ -59,15 +67,6 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="w-full border-t border-black/10">
-        <div className="mx-auto max-w-3xl px-6 py-6 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-sm">
-          <span className="text-foreground/60">© {new Date().getFullYear()} RocTrades</span>
-          <nav className="flex items-center gap-4">
-            <a className="underline text-foreground/80 hover:text-foreground" href="/privacy-policy">Privacy Policy</a>
-            <a className="underline text-foreground/80 hover:text-foreground" href="/terms-of-service">Terms of Service</a>
-          </nav>
-        </div>
-      </footer>
     </main>
   );
 }
