@@ -18,11 +18,6 @@ export const metadata: Metadata = {
   description:
     "RocTrades is a mobile app for University of Rochester students to buy, sell, and trade on campus.",
   metadataBase: new URL("https://example.com"),
-  icons: {
-    icon: "/logo/R_logo_v2.png",
-    shortcut: "/logo/R_logo_v2.png",
-    apple: "/logo/R_logo_v2.png",
-  },
   openGraph: {
     title: "RocTrades – Mobile App",
     description:
